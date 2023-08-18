@@ -1,8 +1,18 @@
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, useContractRead } from "@thirdweb-dev/react";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
+import { useZLPContract } from "../hooks/useHooksContract.js";
 
 export default function Home() {
+  const zlpContract = useZLPContract();
+
+  const { data, isLoading, error } = useContractRead(
+    zlpContract,
+    'allTokens'
+  );
+
+  console.log(isLoading)
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -33,6 +43,7 @@ export default function Home() {
                 align: "center",
               }}
             />
+            <h3>{isLoading ? "Loading" : "Contract Connected"}</h3>
           </div>
         </div>
 
